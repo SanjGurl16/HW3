@@ -1,6 +1,6 @@
 
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Sanjana Kaushik / COMP 272 ***
  *
  * This java file is a Java object implementing simple AVL Tree.
  * You are to complete the deleteElement method.
@@ -362,7 +362,57 @@ class LUC_AVLTree {
          * do many of the same things as this method.
          */
 
-        return node;
+         if (node == null) { // If the node is null, return null
+                 return null;
+         }
+
+         if (value < node.value) { // Search for the node to delete
+                 node.leftChild = deleteElement(value, node.leftChild); // If the value is smaller, go left
+         }
+
+         else if (value > node.value) { 
+                 node.rightChild = deleteElement(value, node.rightChild); // If the value is larger, go right
+         }
+
+         else { // Found the node to delete
+                 if (node.leftChild == null) { // Node has no left child, return right child
+                         return node.rightChild;
+                 }
+
+                 else if (node.rightChild == null) { // Node has no right child, return left child
+                         return node.leftChild;
+                 }
+
+                 // Node has two children
+                 Node successor = minValueNode(node.rightChild); // Find the smallest value in the right subtree
+                 node.value = successor.value; // Replace the node's value with the successor's value
+                 node.rightChild = deleteElement(successor.value, node.rightChild); // Delete the successor from the right subtree
+         }
+
+         node.height = getMaxHeight(getHeight(node.leftChild), getHeight(node.rightChild)) + 1; // Update the height of the current node
+
+         int balance = getBalanceFactor(node); // Check if the tree is unbalanced
+
+         if (balance > 1) { // Left-heavy cases
+                 if (getBalanceFactor(node.leftChild) >= 0) { // Left-Left (LL) case
+                         return LLRotation(node);
+                 } 
+                 else { // Left-Right (LR) case
+                         return LRRotation(node);
+                 }
+                 
+         } 
+                 
+         else if (balance < -1) { // Right-heavy cases
+                if (getBalanceFactor(node.rightChild) <= 0) { // Right-Right (RR) case
+                         return RRRotation(node);
+                 } 
+                else { // Right-Left (RL) case
+                         return RLRotation(node);
+                }       
+         }        
+        
+        return node; // Return the updated node 
     }
 
 
