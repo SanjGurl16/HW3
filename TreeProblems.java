@@ -62,7 +62,7 @@ public class TreeProblems {
     while (iterator.hasNext()) { // Loop through each key in the map
       int key = iterator.next();
 
-      if (key % == 0) { // Check if the key is even
+      if (key % 2 == 0) { // Check if the key is even
         iterator.remove(); // If the key is even, remove the entry from the map
       }
 
